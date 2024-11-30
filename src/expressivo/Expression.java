@@ -16,8 +16,25 @@ package expressivo;
  */
 public interface Expression {
     
-    // Datatype definition
-    //   TODO
+    /**
+     * Datatype definition:
+     * 1. NumberExpression: Represents a nonnegative integer or floating-point constant.
+     *    - Fields: double value
+     * 
+     * 2. VariableExpression: Represents a variable (case-sensitive, nonempty string of letters).
+     *    - Fields: String name
+     * 
+     * 3. AddExpression: Represents the addition of two sub-expressions.
+     *    - Fields: Expression left, Expression right
+     * 
+     * 4. MultiplyExpression: Represents the multiplication of two sub-expressions.
+     *    - Fields: Expression left, Expression right
+     * 
+     * Recursive structure:
+     * - An Expression can be composed of other Expressions through addition or multiplication,
+     *   allowing for deeply nested expressions (e.g., (2 * x) + (3 * (x + 4))).
+     */
+
     
     /**
      * Parse an expression.
