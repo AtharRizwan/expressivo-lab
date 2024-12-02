@@ -108,4 +108,54 @@ public class ExpressionTest {
         assertEquals(new Multiply(new Number(1), new Multiply(new Number(2), new Number(3))).hashCode(), e.hashCode());
         assertTrue(e.equals(new Multiply(new Number(1), new Multiply(new Number(2), new Number(3)))));
     }
+
+    @Test 
+    public void testParseNumber() {
+        Expression e = Expression.parse("1.0");
+        assertEquals(new Number(1), e);
+
+        e = Expression.parse("0.0");
+        assertEquals(new Number(0), e);
+
+        e = Expression.parse("1.5");
+        assertEquals(new Number(1.5), e);   
+    }
+
+    @Test
+    public void testParseVariable() {
+        Expression e = Expression.parse("x");
+        assertEquals(new Variable("x"), e);
+
+        e = Expression.parse("var");
+        assertEquals(new Variable("var"), e);
+    }
+
+    @Test
+    public void testParseAdd() {
+        Expression e = Expression.parse("1.0 + 2.0");
+        assertEquals(new Add(new Number(1), new Number(2)), e);
+    }
+
+    @Test
+    public void testParseMultiply() {
+        Expression e = Expression.parse("3.0 * 2.0");
+        assertEquals(new Multiply(new Number(3), new Number(2)), e);
+
+        e = Expression.parse("1.0 * 2.0");
+        assertEquals(new Number(2), e);
+
+        e = Expression.parse("0 * x");
+        assertEquals(new Number(0), e);
+    }
+
+    @Test
+    public void testParseCombination() {
+        // Without Parenthesis
+        Expression e = Expression.parse("1.0 + 2.0 * x");
+        assertEquals(new Add(new Number(1), new Multiply(new Number(2), new Variable("x"))), e);
+
+        // With Parenthesis
+        e = Expression.parse("(1.0 + 2.0) * x");
+        assertEquals(new Multiply(new Add(new Number(1), new Number(2)), new Variable("x")), e);
+    }
 }
