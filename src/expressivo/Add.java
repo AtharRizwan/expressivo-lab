@@ -51,4 +51,11 @@ public class Add implements Expression {
     public int hashCode() {
         return left.hashCode() + right.hashCode();
     }
+
+    @Override
+    public Expression differentiate(String var) {
+        // The derivative of a sum is the sum of the derivatives
+        return new Add(left.differentiate(var), right.differentiate(var));
+    }
+
 }

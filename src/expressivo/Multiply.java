@@ -51,5 +51,11 @@ public class Multiply implements Expression {
     public int hashCode() {
         return left.hashCode() + right.hashCode();
     }
+
+    @Override
+    public Expression differentiate(String var) {
+        // The derivative of a product is the sum of the product of the derivative of the left expression and the right expression and the product of the left expression and the derivative of the right expression
+        return new Add(new Multiply(left.differentiate(var), right), new Multiply(left, right.differentiate(var)));
+    }
     
 }

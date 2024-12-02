@@ -13,7 +13,14 @@ import org.junit.Test;
 public class CommandsTest {
 
     // Testing strategy
-    //   TODO
+    //   Tests for number
+    //     number = 0, number = 1, number > 1
+    //   Tests for variable
+    //      var equals variable, var not equals variable
+    //   Tests for add expressions
+    //     either is number, either is variable, either is sub-expression
+    //   Tests for multiply expressions
+    //     either is number, either is variable, either is sub-expression
     
     @Test(expected=AssertionError.class)
     public void testAssertionsEnabled() {
@@ -22,5 +29,32 @@ public class CommandsTest {
     
     
     // TODO tests for Commands.differentiate() and Commands.simplify()
-    
+    @Test
+    public void testDifferentiateNumber() {
+        assertEquals("0.0", Commands.differentiate("0", "x"));
+        assertEquals("0.0", Commands.differentiate("1", "x"));
+        assertEquals("0.0", Commands.differentiate("1.5", "x"));
+    }
+
+    @Test
+    public void testDifferentiateVariable() {
+        assertEquals("1.0", Commands.differentiate("x", "x"));
+        assertEquals("0.0", Commands.differentiate("x", "y"));
+    }
+
+    @Test
+    public void testDifferentiateAdd() {
+        assertEquals("(1.0 + 0.0)", Commands.differentiate("x + 1", "x"));
+        assertEquals("(0.0 + 1.0)", Commands.differentiate("1 + x", "x"));
+        assertEquals("(1.0 + 1.0)", Commands.differentiate("x + x", "x"));
+        assertEquals("(0.0 + 0.0)", Commands.differentiate("x + x", "y"));
+    }
+
+    @Test
+    public void testDifferentiateMultiply() {
+        assertEquals("1.0", Commands.differentiate("x * 1", "x"));
+        assertEquals("1.0", Commands.differentiate("1 * x", "x"));
+        assertEquals("((1.0 * x) + (x * 1.0))", Commands.differentiate("x * x", "x"));
+        assertEquals("((0.0 * x) + (x * 0.0))", Commands.differentiate("x * x", "y"));
+    }
 }

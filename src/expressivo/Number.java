@@ -49,4 +49,10 @@ public class Number implements Expression {
     public int hashCode() {
         return Double.hashCode(number);
     }
+
+    @Override
+    public Expression differentiate(String var) {
+        // The derivative of a constant is zero
+        return new Number(0);
+    }
 }

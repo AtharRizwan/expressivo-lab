@@ -137,18 +137,24 @@ public interface Expression {
      * input if one of the inputs represents one
      */
     public static Expression times(Expression left, Expression right){
-    Number zero = new Number(0);
-    Number one = new Number(1);
-    if (left.equals(zero)||right.equals(zero)) {
-        return new Number(0);
+        Number zero = new Number(0);
+        Number one = new Number(1);
+        if (left.equals(zero)||right.equals(zero)) {
+            return new Number(0);
+        }
+        if (left.equals(one)) {
+            return right;
+        }
+        if (right.equals(one)) {
+            return left;
+        }
+        return new Multiply(left, right);
     }
-    if (left.equals(one)) {
-        return right;
-    }
-    if (right.equals(one)) {
-        return left;
-    }
-    return new Multiply(left, right);
-}
-    
+
+    /**
+     * Differentiates the expression with respect to the variable var
+     * @param var the variable with respect to which the expression is to be differentiated
+     * @return an Expression object representing the differentiated form
+     */
+    public Expression differentiate(String var);
 }
